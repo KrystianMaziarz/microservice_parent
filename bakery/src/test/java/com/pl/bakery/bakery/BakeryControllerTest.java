@@ -1,7 +1,10 @@
 package com.pl.bakery.bakery;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pl.bakery.TestContainer;
+import java.util.List;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +16,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
 class BakeryControllerTest extends TestContainer {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
-
 
     @Test
     void shouldGetAllBakeries() throws Exception {
@@ -34,18 +31,18 @@ class BakeryControllerTest extends TestContainer {
         BakeryEntity expected = new BakeryEntity(1L, "TestName", "TestAddress", "TestLocation");
         // when
         MvcResult mvcResult =
-                mockMvc
-                        .perform(MockMvcRequestBuilders.get("/bakeries"))
+                mockMvc.perform(MockMvcRequestBuilders.get("/bakeries"))
                         .andExpect(status().isOk())
                         .andReturn();
         List<BakeryEntity> result =
                 objectMapper.readValue(
                         mvcResult.getResponse().getContentAsString(),
-                        objectMapper.getTypeFactory().constructCollectionType(List.class, BakeryEntity.class));
+                        objectMapper
+                                .getTypeFactory()
+                                .constructCollectionType(List.class, BakeryEntity.class));
         // then
         AssertionsForClassTypes.assertThat(result.get(0))
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
     }
-
 }

@@ -4,8 +4,10 @@ import com.pl.bakery.bakery.dto.BakeryRequestDto;
 import com.pl.bakery.bakery.dto.BakeryResponseDto;
 import com.pl.bakery.bakery.exception.BakeryNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,9 +51,15 @@ public class BakeryServiceImpl implements BakeryService {
         BakeryEntity bakeryEntity =
                 bakeryRepository.findById(id).orElseThrow(() -> new BakeryNotFoundException(id));
 
-        bakeryEntity.setName(bakeryRequestDto.getName());
-        bakeryEntity.setAddress(bakeryRequestDto.getAddress());
-        bakeryEntity.setLocation(bakeryRequestDto.getLocation());
+        Optional.ofNullable(bakeryRequestDto.getName())
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(bakeryEntity::setName);
+        Optional.ofNullable(bakeryRequestDto.getLocation())
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(bakeryEntity::setLocation);
+        Optional.ofNullable(bakeryRequestDto.getAddress())
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(bakeryEntity::setAddress);
 
         bakeryRepository.save(bakeryEntity);
         log.info("Bakery {} updated", bakeryEntity.getId());

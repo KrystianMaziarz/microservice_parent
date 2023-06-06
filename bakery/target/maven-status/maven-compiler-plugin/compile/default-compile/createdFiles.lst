@@ -1,0 +1,9 @@
+com\pl\bakery\bakery\BakeryRepository.class
+com\pl\bakery\bakery\BakeryController.class
+com\pl\bakery\bakery\BakeryViewDto.class
+com\pl\bakery\bakery\BakeryMapper.class
+com\pl\bakery\BakeryApplication.class
+com\pl\bakery\bakery\BakeryServiceImpl.class
+com\pl\bakery\bakery\BakeryViewDto$BakeryViewDtoBuilder.class
+com\pl\bakery\bakery\BakeryService.class
+com\pl\bakery\bakery\BakeryEntity.class

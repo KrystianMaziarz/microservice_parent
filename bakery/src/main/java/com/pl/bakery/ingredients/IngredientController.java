@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/bakeries")
+@RequestMapping("/ingredients")
 public class IngredientController {
 
     private final IngredientServiceImpl ingredientService;
@@ -35,5 +35,11 @@ public class IngredientController {
             @RequestBody IngredientUpdateRequestDto ingredientUpdateRequestDto) {
 
         return ingredientService.updateIngredient(id, ingredientUpdateRequestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        ingredientService.deleteById(id);
     }
 }

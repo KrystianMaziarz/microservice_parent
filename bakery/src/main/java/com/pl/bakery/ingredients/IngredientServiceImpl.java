@@ -10,6 +10,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional
     public IngredientResponseDto addIngredient(IngredientRequestDto ingredientRequestDto) {
         IngredientEntity ingredientEntity =
                 ingredientMapper.mapIngredientRequestDtoToBakeryEntity(ingredientRequestDto);
@@ -46,12 +48,15 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional
     public IngredientResponseDto updateIngredient(
             Long id, IngredientUpdateRequestDto ingredientUpdateRequestDto) {
+
         IngredientEntity ingredientEntity =
                 ingredientRepository
                         .findById(id)
                         .orElseThrow(() -> new IngredientNotFoundException(id));
+
         Optional.ofNullable(ingredientUpdateRequestDto.getName())
                 .filter(StringUtils::isNotBlank)
                 .ifPresent(ingredientEntity::setName);

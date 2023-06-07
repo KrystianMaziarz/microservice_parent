@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +29,13 @@ public class BakeryServiceImpl implements BakeryService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public BakeryResponseDto addBakery(BakeryRequestDto bakeryRequestDto) {
 
         BakeryEntity bakeryEntity =
                 bakeryMapper.mapBakeryRequestDtoToBakeryEntity(bakeryRequestDto);
 
-        bakeryRepository.save(bakeryEntity);
         log.info("Bakery {} is saved", bakeryEntity.getId());
         return bakeryMapper.mapBakeryEntityToBakeryResponseDto(bakeryEntity);
     }
@@ -46,6 +47,7 @@ public class BakeryServiceImpl implements BakeryService {
         return bakeryMapper.mapBakeryEntityToBakeryResponseDto(bakeryEntity);
     }
 
+    @Transactional
     @Override
     public BakeryResponseDto updateBakery(Long id, BakeryRequestDto bakeryRequestDto) {
         BakeryEntity bakeryEntity =
@@ -61,7 +63,6 @@ public class BakeryServiceImpl implements BakeryService {
                 .filter(StringUtils::isNotBlank)
                 .ifPresent(bakeryEntity::setAddress);
 
-        bakeryRepository.save(bakeryEntity);
         log.info("Bakery {} updated", bakeryEntity.getId());
         return bakeryMapper.mapBakeryEntityToBakeryResponseDto(bakeryEntity);
     }

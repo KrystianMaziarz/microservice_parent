@@ -42,7 +42,7 @@ public class IngredientServiceImpl implements IngredientService {
     public IngredientResponseDto addIngredient(IngredientRequestDto ingredientRequestDto) {
         IngredientEntity ingredientEntity =
                 ingredientMapper.mapIngredientRequestDtoToBakeryEntity(ingredientRequestDto);
-        ingredientRepository.save(ingredientEntity);
+
         log.info("Ingredient {} is saved", ingredientEntity.getId());
         return ingredientMapper.mapIngredientEntityToResponseDto(ingredientEntity);
     }

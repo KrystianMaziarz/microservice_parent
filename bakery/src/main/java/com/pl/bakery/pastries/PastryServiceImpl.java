@@ -34,10 +34,10 @@ public class PastryServiceImpl implements PastryService {
     }
 
     @Override
+    @Transactional
     public PastryResponseDto addPastry(PastryRequestDto pastryRequestDto) {
         PastryEntity pastryEntity =
                 pastryMapper.mapPastryRequestDtoToPastryEntity(pastryRequestDto);
-        pastryRepository.save(pastryEntity);
 
         log.info("Pastry {} created", pastryEntity.getId());
         return pastryMapper.mapPastryEntityToPastryResponseDto(pastryEntity);
@@ -58,6 +58,7 @@ public class PastryServiceImpl implements PastryService {
     }
 
     @Override
+    @Transactional
     public PastryResponseDto updatePastry(Long id, PastryRequestDto pastryRequestDto) {
         PastryEntity pastryEntity =
                 pastryRepository.findById(id).orElseThrow(() -> new PastryNotFoundException(id));

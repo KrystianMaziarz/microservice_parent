@@ -3,6 +3,7 @@ package com.pl.bakery.ingredients;
 import com.pl.bakery.ingredients.dto.IngredientRequestDto;
 import com.pl.bakery.ingredients.dto.IngredientResponseDto;
 import com.pl.bakery.ingredients.dto.IngredientUpdateRequestDto;
+import com.pl.bakery.ingredients.dto.IngredientWithQuantityResponseDto;
 import java.util.List;
 
 public interface IngredientService {
@@ -13,8 +14,10 @@ public interface IngredientService {
 
     IngredientResponseDto addIngredient(IngredientRequestDto ingredientRequestDto);
 
-    IngredientResponseDto updateIngredient(
+    IngredientWithQuantityResponseDto updateIngredient(
             Long id, IngredientUpdateRequestDto ingredientUpdateRequestDto);
 
     void deleteById(Long id);
+
+    IngredientWithQuantityResponseDto findByIdWithQuantity(Long id);
 }

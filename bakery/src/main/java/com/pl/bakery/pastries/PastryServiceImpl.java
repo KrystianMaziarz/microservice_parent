@@ -96,4 +96,11 @@ public class PastryServiceImpl implements PastryService {
 
         return pastryMapper.mapPastryEntityToPastryResponseWithIngredientDto(pastryEntity);
     }
+
+    public List<PastryResponseWithIngredientDto> findAllPastriesWithIngredients() {
+
+        return pastryRepository.findAll().stream()
+                .map(pastryMapper::mapPastryEntityToPastryResponseWithIngredientDto)
+                .toList();
+    }
 }

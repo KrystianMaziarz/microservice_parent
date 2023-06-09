@@ -3,6 +3,7 @@ package com.pl.bakery.ingredients;
 import com.pl.bakery.ingredients.dto.IngredientRequestDto;
 import com.pl.bakery.ingredients.dto.IngredientResponseDto;
 import com.pl.bakery.ingredients.dto.IngredientUpdateRequestDto;
+import com.pl.bakery.ingredients.dto.IngredientWithQuantityResponseDto;
 import com.pl.bakery.ingredients.exception.IngredientNotFoundException;
 import io.micrometer.common.util.StringUtils;
 import java.util.List;
@@ -49,7 +50,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     @Transactional
-    public IngredientResponseDto updateIngredient(
+    public IngredientWithQuantityResponseDto updateIngredient(
             Long id, IngredientUpdateRequestDto ingredientUpdateRequestDto) {
 
         IngredientEntity ingredientEntity =
@@ -64,11 +65,21 @@ public class IngredientServiceImpl implements IngredientService {
                 .ifPresent(ingredientEntity::setQuantity);
 
         log.info("Ingredient {} is updated", ingredientEntity.getId());
-        return ingredientMapper.mapIngredientEntityToResponseDto(ingredientEntity);
+        return ingredientMapper.mapIngredientEntityToIngredientWithQuantityResponseDto(
+                ingredientEntity);
     }
 
     @Override
     public void deleteById(Long id) {
         ingredientRepository.deleteById(id);
+    }
+
+    public IngredientWithQuantityResponseDto findByIdWithQuantity(Long id) {
+        IngredientEntity ingredientEntity =
+                ingredientRepository
+                        .findById(id)
+                        .orElseThrow(() -> new IngredientNotFoundException(id));
+        return ingredientMapper.mapIngredientEntityToIngredientWithQuantityResponseDto(
+                ingredientEntity);
     }
 }

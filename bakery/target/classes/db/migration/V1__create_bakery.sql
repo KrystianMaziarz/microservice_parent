@@ -1,4 +1,4 @@
-CREATE TABLE Bakery
+CREATE TABLE Bakeries
 (
     id         bigserial PRIMARY KEY,
     name varchar(255)       NOT NULL,

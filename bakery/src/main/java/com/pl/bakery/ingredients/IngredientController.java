@@ -3,6 +3,7 @@ package com.pl.bakery.ingredients;
 import com.pl.bakery.ingredients.dto.IngredientRequestDto;
 import com.pl.bakery.ingredients.dto.IngredientResponseDto;
 import com.pl.bakery.ingredients.dto.IngredientUpdateRequestDto;
+import com.pl.bakery.ingredients.dto.IngredientWithQuantityResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,11 +31,22 @@ public class IngredientController {
     }
 
     @PutMapping("/{id}")
-    public IngredientResponseDto updateIngredient(
+    public IngredientWithQuantityResponseDto updateIngredient(
             @PathVariable Long id,
             @RequestBody IngredientUpdateRequestDto ingredientUpdateRequestDto) {
 
         return ingredientService.updateIngredient(id, ingredientUpdateRequestDto);
+    }
+
+    @GetMapping("/{id}")
+    public IngredientResponseDto getIngredient(@PathVariable Long id) {
+        return ingredientService.findById(id);
+    }
+
+    @GetMapping("/all/{id}")
+    public IngredientWithQuantityResponseDto getIngredientWithQuantity(@PathVariable Long id) {
+
+        return ingredientService.findByIdWithQuantity(id);
     }
 
     @DeleteMapping("/{id}")

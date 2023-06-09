@@ -1,11 +1,11 @@
 
 CREATE TABLE pastries (
-                          id SERIAL PRIMARY KEY,
+                          id         bigserial PRIMARY KEY,
                           name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE ingredients (
-                             id SERIAL PRIMARY KEY,
+                             id         bigserial PRIMARY KEY,
                              name VARCHAR(255) NOT NULL,
                              quantity INT NOT NULL
 );

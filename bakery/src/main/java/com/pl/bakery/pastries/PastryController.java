@@ -20,6 +20,18 @@ public class PastryController {
         return pastryService.findAllPastries();
     }
 
+    @GetMapping("/all")
+    public List<PastryResponseWithIngredientDto> getAllWithIngredients() {
+
+        return pastryService.findAllPastriesWithIngredients();
+    }
+
+    @GetMapping("/{id}/ingredients")
+    public PastryResponseWithIngredientDto getPastryWithIngredients(@PathVariable Long id) {
+
+        return pastryService.findByIdWithIngredients(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PastryResponseDto addNewPastry(@RequestBody PastryRequestDto pastryRequestDto) {
@@ -48,15 +60,9 @@ public class PastryController {
     }
 
     @PutMapping("addIngredient/{pastryId}/{ingredientId}")
-    public PastryResponseWithIngredientDto addIngredient(
+    public PastryResponseWithIngredientDto addIngredientToPastry(
             @PathVariable Long pastryId, @PathVariable Long ingredientId) {
 
         return pastryService.addIngredientToPastry(pastryId, ingredientId);
-    }
-
-    @GetMapping("/{id}/ingredients")
-    public PastryResponseWithIngredientDto getPastryWithIngredients(@PathVariable Long id) {
-
-        return pastryService.findByIdWithIngredients(id);
     }
 }
